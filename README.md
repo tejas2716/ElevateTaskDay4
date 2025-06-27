@@ -1,5 +1,8 @@
 **#NotesApp – Java File I/O Based Notes Manager**
 
+**#Developed by: Tejas Sathe**
+**#MailId - sathetejas111@gmail.com**
+
 **#Description**
 **NotesApp** is a console-based Java application that allows users to write, read, and delete personal notes. All notes are stored in a local text file (`notes.txt`) 
   using Java’s File I/O classes such as `FileWriter`, `BufferedReader`, and `File`. This application demonstrates basic **data persistence**, **file handling**, and **exception management**.
