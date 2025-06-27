@@ -1,0 +1,116 @@
+package com.elevate_Internship_Day_4;
+
+import java.io.*;
+import java.util.Scanner;
+
+public class NotesApp {
+
+    // Step 1: Define the file name for storing notes
+    static final String FILE_NAME = "notes.txt";
+
+    // Step 2: Create a Scanner object for user input
+    static Scanner sc = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        // Step 3: Start an infinite loop to display the main menu until the user exits
+        while (true) {
+            // Step 4: Display the menu options
+            System.out.println("\n===== Notes App =====");
+            System.out.println("1. Write a Note");
+            System.out.println("2. Read All Notes");
+            System.out.println("3. Delete All Notes");
+            System.out.println("4. Exit");
+            System.out.print("Choose an option: ");
+
+            // Step 5: Get user's menu choice
+            String choice = sc.nextLine();
+
+            // Step 6: Perform action based on user input
+            switch (choice) {
+                case "1":
+                    writeNote(); // Step 7: Call method to write a new note
+                    break;
+                case "2":
+                    readNotes(); // Step 8: Call method to read all saved notes
+                    break;
+                case "3":
+                    deleteNotes(); // Step 9: Call method to delete all notes
+                    break;
+                case "4":
+                    // Step 10: Exit the application
+                    System.out.println("Thank you for using Notes App!");
+                    return;
+                default:
+                    // Step 11: Handle invalid input
+                    System.out.println("Invalid choice. Please enter 1 to 4.");
+            }
+        }
+    }
+
+    // Step 7: Method to write a note to the file
+    static void writeNote() {
+        try (FileWriter fw = new FileWriter(FILE_NAME, true)) {
+            // Step 7.1: Prompt user to enter a note
+            System.out.print("Enter your note: ");
+            String note = sc.nextLine();
+
+            // Step 7.2: Write the note followed by a newline
+            fw.write(note + "\n");
+
+            // Step 7.3: Confirm that the note was saved
+            System.out.println("Note saved successfully.");
+        } catch (IOException e) {
+            // Step 7.4: Handle file writing errors
+            System.out.println("Error writing note: " + e.getMessage());
+        }
+    }
+
+    // Step 8: Method to read all notes from the file
+    static void readNotes() {
+        File file = new File(FILE_NAME);
+
+        // Step 8.1: Check if file exists and is not empty
+        if (!file.exists() || file.length() == 0) {
+            System.out.println("No notes found. Please write some first!");
+            return;
+        }
+
+        // Step 8.2: Read and print each line from the file
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line;
+            System.out.println("\nYour Notes:");
+            while ((line = br.readLine()) != null) {
+                System.out.println("- " + line); // Display each note with a dash
+            }
+        } catch (IOException e) {
+            // Step 8.3: Handle reading errors
+            System.out.println("Error reading notes: " + e.getMessage());
+        }
+    }
+
+    // Step 9: Method to delete all notes
+    static void deleteNotes() {
+        File file = new File(FILE_NAME);
+
+        // Step 9.1: Check if file exists
+        if (!file.exists()) {
+            System.out.println("No notes file found to delete.");
+            return;
+        }
+
+        // Step 9.2: Check if file is already empty
+        if (file.length() == 0) {
+            System.out.println("Notes file is already empty.");
+            return;
+        }
+
+        // Step 9.3: Clear the contents of the file using FileWriter in overwrite mode
+        try (FileWriter fw = new FileWriter(file, false)) {
+            fw.write(""); // Overwrite with empty content
+            System.out.println("All notes have been deleted.");
+        } catch (IOException e) {
+            // Step 9.4: Handle deletion errors
+            System.out.println("Error deleting notes: " + e.getMessage());
+        }
+    }
+}
